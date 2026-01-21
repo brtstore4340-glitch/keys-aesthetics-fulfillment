@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { where } from 'firebase/firestore';
-import { 
-  productCategoryService, 
-  productService, 
+import {
+  productCategoryService,
+  productService,
   orderService,
   userService
-} from '../services/firebase.service';
-import { ProductCategory, Product, Order, User } from '../types';
+} from '../services/firebase-services';
+import type { ProductCategory, Product, Order, User } from '../types';
 
 export const useProductCategories = () => {
   const [categories, setCategories] = useState<ProductCategory[]>([]);
@@ -58,7 +58,7 @@ export const useProducts = (categoryId?: string) => {
     try {
       setLoading(true);
       const data = categoryId 
-        ? await productService.query([where('category_id', '==', categoryId)])
+        ? await productService.queryDocuments([where('category_id', '==', categoryId)])
         : await productService.getAll();
       setProducts(data);
       setError(null);
@@ -103,14 +103,14 @@ export const useOrders = (status?: string, salesRepId?: string) => {
       let data: Order[];
       
       if (status && salesRepId) {
-        data = await orderService.query([
+        data = await orderService.queryDocuments([
           where('status', '==', status),
           where('sales_rep_id', '==', salesRepId)
         ]);
       } else if (status) {
-        data = await orderService.query([where('status', '==', status)]);
+        data = await orderService.queryDocuments([where('status', '==', status)]);
       } else if (salesRepId) {
-        data = await orderService.query([where('sales_rep_id', '==', salesRepId)]);
+        data = await orderService.queryDocuments([where('sales_rep_id', '==', salesRepId)]);
       } else {
         data = await orderService.getAll();
       }

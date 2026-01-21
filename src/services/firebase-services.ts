@@ -1,18 +1,19 @@
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  where, 
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
   orderBy,
   Timestamp,
   QueryConstraint
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import type { Order, Product, ProductCategory, User } from '../types';
 
 // Generic CRUD operations
 export class FirebaseService<T> {
@@ -34,7 +35,7 @@ export class FirebaseService<T> {
         ...doc.data()
       })) as T[];
     } catch (error) {
-      console.error(\Error getting \:\, error);
+      console.error(`Error getting ${this.collectionName}:`, error);
       throw error;
     }
   }
@@ -53,7 +54,7 @@ export class FirebaseService<T> {
       }
       return null;
     } catch (error) {
-      console.error(\Error getting \ by ID:\, error);
+      console.error(`Error getting ${this.collectionName} by ID:`, error);
       throw error;
     }
   }
@@ -69,7 +70,7 @@ export class FirebaseService<T> {
       });
       return docRef.id;
     } catch (error) {
-      console.error(\Error creating \:\, error);
+      console.error(`Error creating ${this.collectionName}:`, error);
       throw error;
     }
   }
@@ -83,7 +84,7 @@ export class FirebaseService<T> {
         updatedAt: Timestamp.now()
       });
     } catch (error) {
-      console.error(\Error updating \:\, error);
+      console.error(`Error updating ${this.collectionName}:`, error);
       throw error;
     }
   }
@@ -94,7 +95,7 @@ export class FirebaseService<T> {
       const docRef = doc(db, this.collectionName, id);
       await deleteDoc(docRef);
     } catch (error) {
-      console.error(\Error deleting \:\, error);
+      console.error(`Error deleting ${this.collectionName}:`, error);
       throw error;
     }
   }
@@ -106,64 +107,14 @@ export class FirebaseService<T> {
 }
 
 // Product Category Service
-export interface ProductCategory {
-  id?: string;
-  name: string;
-  description?: string;
-  image_url?: string;
-  sort_order?: number;
-  createdAt?: any;
-  updatedAt?: any;
-}
-
 export const productCategoryService = new FirebaseService<ProductCategory>('productCategories');
-
-// Product Service
-export interface Product {
-  id?: string;
-  name: string;
-  description?: string;
-  price: number;
-  image_url?: string;
-  category_id: string;
-  sku?: string;
-  in_stock: boolean;
-  createdAt?: any;
-  updatedAt?: any;
-}
 
 export const productService = new FirebaseService<Product>('products');
 
-// Order Service
-export interface Order {
-  id?: string;
-  order_number: string;
-  customer_name: string;
-  customer_phone: string;
-  customer_address?: string;
-  items: OrderItem[];
-  subtotal: number;
-  vat_amount: number;
-  total_amount: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'completed' | 'cancelled';
-  citizen_id_url?: string;
-  payment_slip_url?: string;
-  notes?: string;
-  sales_rep_id?: string;
-  sales_rep_name?: string;
-  createdAt?: any;
-  updatedAt?: any;
-}
-
-export interface OrderItem {
-  product_id: string;
-  product_name: string;
-  quantity: number;
-  price: number;
-  total: number;
-}
-
 export const orderService = new FirebaseService<Order>('orders');
+
+// User Service
+export const userService = new FirebaseService<User>('users');
 
 // Helper functions for specific queries
 
