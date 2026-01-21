@@ -98,7 +98,7 @@ export default function CreateOrder() {
     }
 
     try {
-      const orderNumber = \ORD-\\
+      const orderNumber = `ORD-${Date.now()}`
       await createOrder({
         order_number: orderNumber,
         customer_name: customerName,

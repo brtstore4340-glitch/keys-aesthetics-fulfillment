@@ -43,7 +43,7 @@ export default function StaffSelection() {
       '/accounting/dashboard'
 
     navigate(redirectPath)
-    toast.success(\Welcome, \!\)
+    toast.success(`Welcome, ${user.name}!`)
   }
 
   if (loading) return <LoadingSpinner />

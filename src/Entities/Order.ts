@@ -1,4 +1,4 @@
-{
+const orderSchema = {
   "name": "Order",
   "type": "object",
   "properties": {
@@ -93,4 +93,6 @@
     "items",
     "total_amount"
   ]
-}
+} as const
+
+export default orderSchema

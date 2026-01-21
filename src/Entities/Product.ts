@@ -1,4 +1,4 @@
-{
+const productSchema = {
   "name": "Product",
   "type": "object",
   "properties": {
@@ -36,4 +36,6 @@
     "name",
     "price"
   ]
-}
+} as const
+
+export default productSchema

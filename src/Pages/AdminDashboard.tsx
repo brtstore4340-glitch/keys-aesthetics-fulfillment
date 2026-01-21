@@ -21,6 +21,12 @@ export default function AdminDashboard() {
     )
   }
 
+  const totalRevenue = orders
+    .filter(o => o.status === 'completed')
+    .reduce((sum, order) => sum + order.total_amount, 0)
+
+  const formatCurrency = (amount: number) => `฿${amount.toLocaleString()}`
+
   const stats = [
     {
       title: 'Total Orders',
@@ -42,7 +48,7 @@ export default function AdminDashboard() {
     },
     {
       title: 'Revenue',
-      value: \฿\\,
+      value: formatCurrency(totalRevenue),
       icon: TrendingUp,
       color: 'text-orange-600'
     }
