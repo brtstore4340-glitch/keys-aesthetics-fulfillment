@@ -1,4 +1,4 @@
-{
+const productCategorySchema = {
   "name": "ProductCategory",
   "type": "object",
   "properties": {
@@ -22,4 +22,6 @@
   "required": [
     "name"
   ]
-}
+} as const
+
+export default productCategorySchema

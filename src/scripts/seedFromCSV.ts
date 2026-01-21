@@ -1,5 +1,3 @@
-# ===== สร้างไฟล์ src/scripts/seedFromCSV.ts =====
-@"
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import * as fs from 'fs';
@@ -64,7 +62,7 @@ async function seedFromCSV() {
       createdAt: userTimestamp,
       updatedAt: userTimestamp
     });
-    console.log(\`  ✓ Added user: \${user.name}\`);
+    console.log(`  ✓ Added user: ${user.name}`);
     console.log('');
 
     // 2. Read and Add Product Categories
@@ -78,7 +76,7 @@ async function seedFromCSV() {
     }
 
     const categoriesData = parseCSV(categoriesPath);
-    console.log(\`Found \${categoriesData.length} categories\`);
+    console.log(`Found ${categoriesData.length} categories`);
     
     const categoryIdMap: { [key: string]: string } = {};
     
@@ -98,7 +96,7 @@ async function seedFromCSV() {
         categoryIdMap[oldId.toString()] = docRef.id;
       }
       
-      console.log(\`  ✓ Added category: \${category.name || category.Name}\`);
+      console.log(`  ✓ Added category: ${category.name || category.Name}`);
     }
     console.log('✅ Categories added successfully');
     console.log('');
@@ -114,7 +112,7 @@ async function seedFromCSV() {
     }
 
     const productsData = parseCSV(productsPath);
-    console.log(\`Found \${productsData.length} products\`);
+    console.log(`Found ${productsData.length} products`);
     
     for (const product of productsData) {
       // Map category_id from old ID to new Firebase ID
@@ -122,7 +120,7 @@ async function seedFromCSV() {
       const newCategoryId = categoryIdMap[oldCategoryId];
       
       if (!newCategoryId) {
-        console.log(\`  ⚠ Skipped product (no category mapping): \${product.name || product.Name}\`);
+        console.log(`  ⚠ Skipped product (no category mapping): ${product.name || product.Name}`);
         continue;
       }
 
@@ -139,7 +137,7 @@ async function seedFromCSV() {
         updatedAt: Timestamp.now()
       });
       
-      console.log(\`  ✓ Added product: \${product.name || product.Name}\`);
+      console.log(`  ✓ Added product: ${product.name || product.Name}`);
     }
     console.log('✅ Products added successfully');
     console.log('');
@@ -147,9 +145,9 @@ async function seedFromCSV() {
     console.log('🎉 Database seeding completed!');
     console.log('');
     console.log('Summary:');
-    console.log(\`  - Users: 1\`);
-    console.log(\`  - Categories: \${categoriesData.length}\`);
-    console.log(\`  - Products: \${productsData.length}\`);
+    console.log(`  - Users: 1`);
+    console.log(`  - Categories: ${categoriesData.length}`);
+    console.log(`  - Products: ${productsData.length}`);
     console.log('');
     console.log('You can now login with:');
     console.log('  Username: admin');
@@ -171,6 +169,3 @@ seedFromCSV()
     console.error('❌ Seeding process failed:', error);
     process.exit(1);
   });
-"@ | Out-File -FilePath "src/scripts/seedFromCSV.ts" -Encoding UTF8
-
-Write-Host "✅ สร้างไฟล์ seedFromCSV.ts เรียบร้อย" -ForegroundColor Green

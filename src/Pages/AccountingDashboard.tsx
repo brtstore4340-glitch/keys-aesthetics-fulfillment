@@ -37,22 +37,24 @@ export default function AccountingDashboard() {
     })
     .reduce((sum, order) => sum + order.total_amount, 0)
 
+  const formatCurrency = (amount: number) => `฿${amount.toLocaleString()}`
+
   const stats = [
     {
       title: 'Total Revenue',
-      value: \฿\\,
+      value: formatCurrency(totalRevenue),
       icon: DollarSign,
       color: 'text-green-600'
     },
     {
       title: 'This Month',
-      value: \฿\\,
+      value: formatCurrency(monthRevenue),
       icon: TrendingUp,
       color: 'text-blue-600'
     },
     {
       title: 'Pending Payments',
-      value: \฿\\,
+      value: formatCurrency(pendingPayments),
       icon: AlertCircle,
       color: 'text-yellow-600'
     },
