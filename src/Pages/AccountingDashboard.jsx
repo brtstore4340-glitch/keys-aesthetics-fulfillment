@@ -37,7 +37,7 @@ export default function AccountingDashboard() {
     })
     .reduce((sum, order) => sum + order.total_amount, 0)
 
-  const formatCurrency = (amount: number) => `฿${amount.toLocaleString()}`
+  const formatCurrency = (amount) => `฿${amount.toLocaleString()}`
 
   const stats = [
     {

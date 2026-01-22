@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useOrders } from '@/hooks/useFirebase'
@@ -48,7 +48,7 @@ export default function AccountingOrders() {
     .filter(o => o.status === 'pending')
     .reduce((sum, order) => sum + order.total_amount, 0)
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800'
       case 'confirmed': return 'bg-blue-100 text-blue-800'

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
@@ -32,8 +32,8 @@ export default function CreateOrder() {
   const [customerPhone, setCustomerPhone] = useState('')
   const [customerAddress, setCustomerAddress] = useState('')
   const [notes, setNotes] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('all')
+  const [orderItems, setOrderItems] = useState([])
 
   if (!currentUser) return null
 
@@ -49,7 +49,7 @@ export default function CreateOrder() {
     ? products
     : products.filter(p => p.category_id === selectedCategory)
 
-  const addToOrder = (productId: string) => {
+  const addToOrder = (productId) => {
     const product = products.find(p => p.id === productId)
     if (!product) return
 
@@ -71,7 +71,7 @@ export default function CreateOrder() {
     }
   }
 
-  const updateQuantity = (productId: string, change: number) => {
+  const updateQuantity = (productId, change) => {
     setOrderItems(orderItems.map(item => {
       if (item.product_id === productId) {
         const newQuantity = Math.max(1, item.quantity + change)
@@ -81,7 +81,7 @@ export default function CreateOrder() {
     }).filter(item => item.quantity > 0))
   }
 
-  const removeItem = (productId: string) => {
+  const removeItem = (productId) => {
     setOrderItems(orderItems.filter(item => item.product_id !== productId))
   }
 
@@ -89,7 +89,7 @@ export default function CreateOrder() {
   const vatAmount = subtotal * 0.07
   const totalAmount = subtotal + vatAmount
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (orderItems.length === 0) {
@@ -114,7 +114,7 @@ export default function CreateOrder() {
         sales_rep_name: currentUser.name
       })
 
-      toast.success('Order created successfully!')
+      toast.success('Order created successfully')
       navigate('/staff/orders')
     } catch (error) {
       toast.error('Failed to create order')
@@ -185,7 +185,7 @@ export default function CreateOrder() {
                       <SelectContent>
                         <SelectItem value="all">All Categories</SelectItem>
                         {categories.map(cat => (
-                          <SelectItem key={cat.id} value={cat.id!}>
+                          <SelectItem key={cat.id} value={cat.id}>
                             {cat.name}
                           </SelectItem>
                         ))}
@@ -199,7 +199,7 @@ export default function CreateOrder() {
                       <div
                         key={product.id}
                         className="border rounded-lg p-3 cursor-pointer hover:shadow-md transition-shadow"
-                        onClick={() => addToOrder(product.id!)}
+                        onClick={() => addToOrder(product.id)}
                       >
                         {product.image_url && (
                           <img src={product.image_url} alt={product.name} className="w-full h-24 object-cover rounded mb-2" />

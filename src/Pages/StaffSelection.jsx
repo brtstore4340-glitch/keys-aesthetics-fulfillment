@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUsers } from '@/hooks/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
@@ -24,7 +24,7 @@ export default function StaffSelection() {
     }
   }
 
-  const handlePinSubmit = (pin: string) => {
+  const handlePinSubmit = (pin) => {
     if (selectedUser && selectedUser.pin === pin) {
       loginUser(selectedUser)
     } else {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useProductCategories } from '@/hooks/useFirebase'
@@ -32,8 +32,8 @@ export default function AdminCategories() {
   const { currentUser } = useAuth()
   const { categories, loading, createCategory, updateCategory, deleteCategory } = useProductCategories()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingCategory, setEditingCategory] = useState<ProductCategory | null>(null)
-  const [formData, setFormData] = useState<Partial<ProductCategory>>({
+  const [editingCategory, setEditingCategory] = useState(null)
+  const [formData, setFormData] = useState({
     name: '',
     description: '',
     image_url: '',
@@ -50,7 +50,7 @@ export default function AdminCategories() {
     )
   }
 
-  const handleOpenDialog = (category?: ProductCategory) => {
+  const handleOpenDialog = (category) => {
     if (category) {
       setEditingCategory(category)
       setFormData(category)
@@ -66,14 +66,14 @@ export default function AdminCategories() {
     setIsDialogOpen(true)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (editingCategory) {
-        await updateCategory(editingCategory.id!, formData)
+        await updateCategory(editingCategory.id, formData)
         toast.success('Category updated successfully')
       } else {
-        await createCategory(formData as Omit<ProductCategory, 'id'>)
+        await createCategory(formData)
         toast.success('Category created successfully')
       }
       setIsDialogOpen(false)
@@ -82,7 +82,7 @@ export default function AdminCategories() {
     }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this category?')) {
       try {
         await deleteCategory(id)
@@ -170,7 +170,7 @@ export default function AdminCategories() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.length === 0 ? (
             <div className="col-span-full text-center py-12 text-muted-foreground">
-              No categories yet. Add your first category!
+              No categories yet. Add your first category
             </div>
           ) : (
             categories.map((category) => (
@@ -194,7 +194,7 @@ export default function AdminCategories() {
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => handleDelete(category.id!)}
+                    onClick={() => handleDelete(category.id)}
                   >
                     <Trash2 className="h-4 w-4 mr-1" />
                     Delete

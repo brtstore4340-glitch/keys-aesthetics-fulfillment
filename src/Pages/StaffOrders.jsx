@@ -1,4 +1,4 @@
-import { useAuth } from '@/contexts/AuthContext'
+﻿import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useOrders } from '@/hooks/useFirebase'
 import { LoadingSpinner } from '@/components/ui/spinner'
@@ -31,7 +31,7 @@ export default function StaffOrders() {
 
   const myOrders = orders.filter(o => o.sales_rep_id === currentUser.id)
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800'
       case 'confirmed': return 'bg-blue-100 text-blue-800'
@@ -71,7 +71,7 @@ export default function StaffOrders() {
               {myOrders.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                    No orders yet. Create your first order!
+                    No orders yet. Create your first order
                   </TableCell>
                 </TableRow>
               ) : (

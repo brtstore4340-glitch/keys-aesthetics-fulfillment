@@ -1,10 +1,10 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { X } from 'lucide-react'
 
 interface PinPadProps {
-  onSubmit: (pin: string) => void
+  onSubmit: (pin) => void
   onCancel: () => void
   userName: string
 }
@@ -12,7 +12,7 @@ interface PinPadProps {
 export function PinPad({ onSubmit, onCancel, userName }: PinPadProps) {
   const [pin, setPin] = useState('')
 
-  const handleNumberClick = (num: string) => {
+  const handleNumberClick = (num) => {
     if (pin.length < 6) {
       setPin(pin + num)
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useOrders } from '@/hooks/useFirebase'
@@ -42,7 +42,7 @@ export default function AdminOrders() {
     ? orders 
     : orders.filter(o => o.status === filterStatus)
 
-  const handleStatusChange = async (orderId: string, newStatus: Order['status']) => {
+  const handleStatusChange = async (orderId: string, newStatus) => {
     try {
       await updateOrder(orderId, { status: newStatus })
       toast.success('Order status updated')
@@ -51,7 +51,7 @@ export default function AdminOrders() {
     }
   }
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800'
       case 'confirmed': return 'bg-blue-100 text-blue-800'
@@ -121,7 +121,7 @@ export default function AdminOrders() {
                     <TableCell>
                       <Select
                         value={order.status}
-                        onValueChange={(value) => handleStatusChange(order.id!, value as Order['status'])}
+                        onValueChange={(value) => handleStatusChange(order.id, value)}
                       >
                         <SelectTrigger className="w-[130px]">
                           <SelectValue />

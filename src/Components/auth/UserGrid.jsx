@@ -1,4 +1,4 @@
-import { User } from '@/types'
+﻿import { User } from '@/types'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
@@ -9,7 +9,7 @@ interface UserGridProps {
 }
 
 export function UserGrid({ users, onSelectUser }: UserGridProps) {
-  const getInitials = (name: string) => {
+  const getInitials = (name) => {
     return name
       .split(' ')
       .map(n => n[0])

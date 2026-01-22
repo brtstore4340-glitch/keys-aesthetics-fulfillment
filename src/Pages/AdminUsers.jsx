@@ -27,7 +27,7 @@ export default function AdminUsers() {
     )
   }
 
-  const getRoleBadgeColor = (role: string) => {
+  const getRoleBadgeColor = (role) => {
     switch (role) {
       case 'admin': return 'bg-red-100 text-red-800'
       case 'staff': return 'bg-blue-100 text-blue-800'
@@ -36,7 +36,7 @@ export default function AdminUsers() {
     }
   }
 
-  const getInitials = (name: string) => {
+  const getInitials = (name) => {
     return name
       .split(' ')
       .map(n => n[0])

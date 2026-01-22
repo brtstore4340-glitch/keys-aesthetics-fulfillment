@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useProducts, useProductCategories } from '@/hooks/useFirebase'
@@ -41,8 +41,8 @@ export default function AdminProducts() {
   const { products, loading, createProduct, updateProduct, deleteProduct } = useProducts()
   const { categories } = useProductCategories()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
-  const [formData, setFormData] = useState<Partial<Product>>({
+  const [editingProduct, setEditingProduct] = useState(null)
+  const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: 0,
@@ -62,7 +62,7 @@ export default function AdminProducts() {
     )
   }
 
-  const handleOpenDialog = (product?: Product) => {
+  const handleOpenDialog = (product) => {
     if (product) {
       setEditingProduct(product)
       setFormData(product)
@@ -81,14 +81,14 @@ export default function AdminProducts() {
     setIsDialogOpen(true)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (editingProduct) {
-        await updateProduct(editingProduct.id!, formData)
+        await updateProduct(editingProduct.id, formData)
         toast.success('Product updated successfully')
       } else {
-        await createProduct(formData as Omit<Product, 'id'>)
+        await createProduct(formData)
         toast.success('Product created successfully')
       }
       setIsDialogOpen(false)
@@ -97,7 +97,7 @@ export default function AdminProducts() {
     }
   }
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(id)
@@ -108,7 +108,7 @@ export default function AdminProducts() {
     }
   }
 
-  const getCategoryName = (categoryId: string) => {
+  const getCategoryName = (categoryId) => {
     return categories.find(c => c.id === categoryId)?.name || 'Unknown'
   }
 
@@ -186,7 +186,7 @@ export default function AdminProducts() {
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((cat) => (
-                          <SelectItem key={cat.id} value={cat.id!}>
+                          <SelectItem key={cat.id} value={cat.id}>
                             {cat.name}
                           </SelectItem>
                         ))}
@@ -242,7 +242,7 @@ export default function AdminProducts() {
               {products.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    No products yet. Add your first product!
+                    No products yet. Add your first product
                   </TableCell>
                 </TableRow>
               ) : (
@@ -278,7 +278,7 @@ export default function AdminProducts() {
                         <Button
                           size="sm"
                           variant="destructive"
-                          onClick={() => handleDelete(product.id!)}
+                          onClick={() => handleDelete(product.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

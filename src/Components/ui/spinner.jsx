@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
+﻿import { cn } from '@/lib/utils'
 
 interface SpinnerProps {
-  className?: string
+  className
   size?: 'sm' | 'md' | 'lg'
 }
 
@@ -21,7 +21,7 @@ export function Spinner({ className, size = 'md' }: SpinnerProps) {
       )}
       role="status"
     >
-      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+      <span className="!absolute-m-pxh-pxw-pxoverflow-hiddenwhitespace-nowrapborder-0 !p-0 ![clip:rect(0,0,0,0)]">
         Loading...
       </span>
     </div>

@@ -1,4 +1,4 @@
-import { useAuth } from '@/contexts/AuthContext'
+﻿import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useOrders } from '@/hooks/useFirebase'
@@ -93,7 +93,7 @@ export default function StaffDashboard() {
           <CardContent>
             {myOrders.length === 0 ? (
               <p className="text-muted-foreground text-center py-8">
-                No orders yet. Create your first order!
+                No orders yet. Create your first order
               </p>
             ) : (
               <div className="space-y-2">
