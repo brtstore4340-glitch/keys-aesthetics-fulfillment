@@ -1,14 +1,17 @@
 {
   "name": "keys-aesthetics-monorepo",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "functions"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*",
+      "functions"
+    ]
+  },
   "scripts": {
     "dev": "npm -w apps/fulfillment-web run dev",
     "build": "npm -w apps/fulfillment-web run build",
-    "lint": "npm -w apps/fulfillment-web run lint"
+    "lint": "npm -w apps/fulfillment-web run lint",
+    "check": "npm -w apps/fulfillment-web run build && npm -w apps/fulfillment-web run lint"
   }
 }
