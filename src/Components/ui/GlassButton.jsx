@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+const _jsxFileName = "";import { cn } from "@/lib/utils";
 
 export default function GlassButton({ 
   children, 
@@ -21,8 +21,8 @@ export default function GlassButton({
   };
 
   return (
-    <button
-      className={cn(
+    React.createElement('button', {
+      className: cn(
         "relative rounded-xl border backdrop-blur-xl",
         "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]",
         "transition-all duration-300 font-medium",
@@ -32,10 +32,10 @@ export default function GlassButton({
         variants[variant],
         sizes[size],
         className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 24}}
+
+      , children
+    )
   );
 }

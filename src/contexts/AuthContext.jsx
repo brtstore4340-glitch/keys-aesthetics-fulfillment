@@ -1,16 +1,16 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { User } from '@/types'
+const _jsxFileName = "";import { createContext, useContext, useState, useEffect, } from 'react'
 
-interface AuthContextType {
-  currentUser: User | null
-  setCurrentUser: (user: User | null) => void
-  logout: () => void
-}
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+
+
+
+
+
+const AuthContext = createContext(undefined)
+
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(null)
 
   useEffect(() => {
     // Load user from localStorage on mount
@@ -31,9 +31,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser, logout }}>
-      {children}
-    </AuthContext.Provider>
+    React.createElement(AuthContext.Provider, { value: { currentUser, setCurrentUser, logout }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 34}}
+      , children
+    )
   )
 }
 

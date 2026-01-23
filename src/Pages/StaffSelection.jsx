@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+const _jsxFileName = "";﻿import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUsers } from '@/hooks/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
@@ -6,16 +6,16 @@ import { UserGrid } from '@/components/auth/UserGrid'
 import { PinPad } from '@/components/auth/PinPad'
 import { LoadingSpinner } from '@/components/ui/spinner'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { User } from '@/types'
+
 import { toast } from 'sonner'
 
 export default function StaffSelection() {
   const navigate = useNavigate()
   const { users, loading, error } = useUsers()
   const { setCurrentUser } = useAuth()
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [selectedUser, setSelectedUser] = useState(null)
 
-  const handleSelectUser = (user: User) => {
+  const handleSelectUser = (user) => {
     if (!user.pin) {
       // No PIN required, login directly
       loginUser(user)
@@ -32,7 +32,7 @@ export default function StaffSelection() {
     }
   }
 
-  const loginUser = (user: User) => {
+  const loginUser = (user) => {
     setCurrentUser(user)
     localStorage.setItem('currentUser', JSON.stringify(user))
 
@@ -46,43 +46,43 @@ export default function StaffSelection() {
     toast.success(`Welcome, ${user.name}!`)
   }
 
-  if (loading) return <LoadingSpinner />
+  if (loading) return React.createElement(LoadingSpinner, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 49}} )
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertDescription>
-            Error loading users: {error.message}
-          </AlertDescription>
-        </Alert>
-      </div>
+      React.createElement('div', { className: "min-h-screen flex items-center justify-center p-4"    , __self: this, __source: {fileName: _jsxFileName, lineNumber: 53}}
+        , React.createElement(Alert, { variant: "destructive", className: "max-w-md", __self: this, __source: {fileName: _jsxFileName, lineNumber: 54}}
+          , React.createElement(AlertDescription, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 55}}, "Error loading users: "
+               , error.message
+          )
+        )
+      )
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl">
-        {selectedUser ? (
-          <div className="flex justify-center">
-            <PinPad
-              userName={selectedUser.name}
-              onSubmit={handlePinSubmit}
-              onCancel={() => setSelectedUser(null)}
-            />
-          </div>
+    React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4"       , __self: this, __source: {fileName: _jsxFileName, lineNumber: 64}}
+      , React.createElement('div', { className: "w-full max-w-5xl" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 65}}
+        , selectedUser ? (
+          React.createElement('div', { className: "flex justify-center" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 67}}
+            , React.createElement(PinPad, {
+              userName: selectedUser.name,
+              onSubmit: handlePinSubmit,
+              onCancel: () => setSelectedUser(null), __self: this, __source: {fileName: _jsxFileName, lineNumber: 68}}
+            )
+          )
         ) : (
-          <div className="space-y-8">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Keys Aesthetics
-              </h1>
-              <p className="text-gray-600">Select your profile to continue</p>
-            </div>
-            <UserGrid users={users} onSelectUser={handleSelectUser} />
-          </div>
-        )}
-      </div>
-    </div>
+          React.createElement('div', { className: "space-y-8", __self: this, __source: {fileName: _jsxFileName, lineNumber: 75}}
+            , React.createElement('div', { className: "text-center", __self: this, __source: {fileName: _jsxFileName, lineNumber: 76}}
+              , React.createElement('h1', { className: "text-4xl font-bold text-gray-900 mb-2"   , __self: this, __source: {fileName: _jsxFileName, lineNumber: 77}}, "Keys Aesthetics"
+
+              )
+              , React.createElement('p', { className: "text-gray-600", __self: this, __source: {fileName: _jsxFileName, lineNumber: 80}}, "Select your profile to continue"    )
+            )
+            , React.createElement(UserGrid, { users: users, onSelectUser: handleSelectUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 82}} )
+          )
+        )
+      )
+    )
   )
 }

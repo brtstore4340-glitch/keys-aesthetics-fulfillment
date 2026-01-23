@@ -1,4 +1,7 @@
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+  });
+import { safeAddDoc, safeSetDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
 const user = {
@@ -125,7 +128,7 @@ async function seedDatabase() {
   try {
     console.log('Adding user...');
     const userTimestamp = Timestamp.fromDate(new Date('2026-01-13T14:29:03+07:00'));
-    await addDoc(collection(db, 'users'), {
+    await safeAddDoc(collection(db, 'users'), {
       ...user,
       createdAt: userTimestamp,
       updatedAt: userTimestamp
@@ -136,7 +139,7 @@ async function seedDatabase() {
     const categoryIdMap: { [key: string]: string } = {};
     
     for (const category of categories) {
-      const docRef = await addDoc(collection(db, 'productCategories'), {
+      const docRef = await safeAddDoc(collection(db, 'productCategories'), {
         name: category.name,
         description: category.description,
         image_url: category.image_url,
@@ -158,7 +161,7 @@ async function seedDatabase() {
         continue;
       }
 
-      await addDoc(collection(db, 'products'), {
+      await safeAddDoc(collection(db, 'products'), {
         name: product.name,
         description: product.description,
         price: product.price,

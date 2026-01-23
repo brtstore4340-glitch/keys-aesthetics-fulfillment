@@ -1,18 +1,18 @@
-import { ReactNode } from 'react'
+const _jsxFileName = "";
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
-import { User } from '@/types'
 
-interface ProtectedRouteProps {
-  children: ReactNode
-  allowedRoles?: Array<User['role']>
-}
 
-export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+
+
+
+
+
+export function ProtectedRoute({ children, allowedRoles }) {
   const { currentUser } = useAuth()
 
   if (!currentUser) {
-    return <Navigate to="/staff-selection" replace />
+    return React.createElement(Navigate, { to: "/staff-selection", replace: true, __self: this, __source: {fileName: _jsxFileName, lineNumber: 15}} )
   }
 
   if (allowedRoles && !allowedRoles.includes(currentUser.role)) {
@@ -21,8 +21,8 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
       currentUser.role === 'staff' ? '/staff/dashboard' :
       '/accounting/dashboard'
     
-    return <Navigate to={redirectPath} replace />
+    return React.createElement(Navigate, { to: redirectPath, replace: true, __self: this, __source: {fileName: _jsxFileName, lineNumber: 24}} )
   }
 
-  return <>{children}</>
+  return React.createElement(React.Fragment, null, children)
 }

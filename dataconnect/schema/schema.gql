@@ -1,0 +1,46 @@
+type User @table {
+  username: String!
+  email: String!
+  createdAt: Timestamp!
+  bio: String
+  profilePictureUrl: String
+}
+
+type MoodLog @table {
+  user: User!
+  moodRating: String!
+  logDate: Date!
+  createdAt: Timestamp!
+  notes: String
+}
+
+type Key @table {
+  moodLog: MoodLog!
+  description: String!
+  type: String!
+  createdAt: Timestamp!
+  impact: String
+}
+
+type Aesthetic @table {
+  moodLog: MoodLog!
+  description: String!
+  createdAt: Timestamp!
+  imageUrl: String
+}
+
+type Fulfillment @table {
+  moodLog: MoodLog!
+  description: String!
+  createdAt: Timestamp!
+  category: String
+}
+
+type Practice @table {
+  user: User!
+  name: String!
+  description: String!
+  createdAt: Timestamp!
+  frequency: String
+  lastCompletedDate: Date
+}

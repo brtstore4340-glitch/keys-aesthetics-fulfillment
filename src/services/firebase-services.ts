@@ -1,4 +1,7 @@
 import {
+
+import { safeAddDoc, safeSetDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
+import {
   collection,
   doc,
   getDocs,
@@ -63,7 +66,7 @@ export class FirebaseService<T> {
   async create(data: Omit<T, 'id'>): Promise<string> {
     try {
       const collectionRef = collection(db, this.collectionName);
-      const docRef = await addDoc(collectionRef, {
+      const docRef = await safeAddDoc(collectionRef, {
         ...data,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
@@ -79,7 +82,7 @@ export class FirebaseService<T> {
   async update(id: string, data: Partial<Omit<T, 'id'>>): Promise<void> {
     try {
       const docRef = doc(db, this.collectionName, id);
-      await updateDoc(docRef, {
+      await safeUpdateDoc(docRef, {
         ...data,
         updatedAt: Timestamp.now()
       });
@@ -93,7 +96,7 @@ export class FirebaseService<T> {
   async delete(id: string): Promise<void> {
     try {
       const docRef = doc(db, this.collectionName, id);
-      await deleteDoc(docRef);
+      await safeDeleteDoc(docRef);
     } catch (error) {
       console.error(`Error deleting ${this.collectionName}:`, error);
       throw error;

@@ -1,13 +1,13 @@
-﻿"use client";
+const _jsxFileName = ""; function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } } function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }﻿"use client";
 
-import type * as LabelPrimitive from "@radix-ui/react-label";
+
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import {
   Controller,
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
+
+
+
   FormProvider,
   useFormContext,
 } from "react-hook-form";
@@ -17,25 +17,25 @@ import { cn } from "@/lib/utils";
 
 const Form = FormProvider;
 
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
-  name: TName;
-};
 
-const FormFieldContext = React.createContext<FormFieldContextValue>({});
 
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
+
+
+
+
+
+const FormFieldContext = React.createContext({});
+
+const FormField = 
+
+
+({
   ...props
-}: ControllerProps<TFieldValues, TName>) => {
+}) => {
   return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>
+    React.createElement(FormFieldContext.Provider, { value: { name: props.name }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 36}}
+      , React.createElement(Controller, { ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 37}} )
+    )
   );
 };
 
@@ -62,97 +62,97 @@ const useFormField = () => {
   };
 };
 
-type FormItemContextValue = {
-  id: string;
-};
 
-const FormItemContext = React.createContext<FormItemContextValue>({});
 
-const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+
+
+const FormItemContext = React.createContext({});
+
+const FormItem = React.forwardRef(
   ({ className, ...props }, ref) => {
     const id = React.useId();
 
     return (
-      <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn("space-y-2", className)} {...props} />
-      </FormItemContext.Provider>
+      React.createElement(FormItemContext.Provider, { value: { id }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 76}}
+        , React.createElement('div', { ref: ref, className: cn("space-y-2", className), ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 77}} )
+      )
     );
   },
 );
 FormItem.displayName = "FormItem";
 
-const FormLabel = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+const FormLabel = React.forwardRef
+
+
+(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
   return (
-    <Label
-      ref={ref}
-      className={cn(error && "text-destructive", className)}
-      htmlFor={formItemId}
-      {...props}
-    />
+    React.createElement(Label, {
+      ref: ref,
+      className: cn(error && "text-destructive", className),
+      htmlFor: formItemId,
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 91}}
+    )
   );
 });
 FormLabel.displayName = "FormLabel";
 
-const FormControl = React.forwardRef<
-  React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
->(({ ...props }, ref) => {
+const FormControl = React.forwardRef
+
+
+(({ ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
   return (
-    <Slot
-      ref={ref}
-      id={formItemId}
-      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
-      aria-invalid={!!error}
-      {...props}
-    />
+    React.createElement(Slot, {
+      ref: ref,
+      id: formItemId,
+      'aria-describedby': !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+      'aria-invalid': !!error,
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 108}}
+    )
   );
 });
 FormControl.displayName = "FormControl";
 
-const FormDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+const FormDescription = React.forwardRef
+
+
+(({ className, ...props }, ref) => {
   const { formDescriptionId } = useFormField();
 
   return (
-    <p
-      ref={ref}
-      id={formDescriptionId}
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
+    React.createElement('p', {
+      ref: ref,
+      id: formDescriptionId,
+      className: cn("text-sm text-muted-foreground", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 126}}
+    )
   );
 });
 FormDescription.displayName = "FormDescription";
 
-const FormMessage = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+const FormMessage = React.forwardRef
+
+
+(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : children;
+  const body = error ? String(_nullishCoalesce(_optionalChain([error, 'optionalAccess', _ => _.message]), () => ( ""))) : children;
 
   if (!body) {
     return null;
   }
 
   return (
-    <p
-      ref={ref}
-      id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
-      {...props}
-    >
-      {body}
-    </p>
+    React.createElement('p', {
+      ref: ref,
+      id: formMessageId,
+      className: cn("text-sm font-medium text-destructive", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 148}}
+
+      , body
+    )
   );
 });
 FormMessage.displayName = "FormMessage";

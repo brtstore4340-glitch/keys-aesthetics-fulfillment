@@ -1,4 +1,7 @@
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+
+import { safeAddDoc, safeSetDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -57,7 +60,7 @@ async function seedFromCSV() {
     // 1. Add User
     console.log('👥 Adding user...');
     const userTimestamp = Timestamp.fromDate(new Date('2026-01-13T14:29:03+07:00'));
-    await addDoc(collection(db, 'users'), {
+    await safeAddDoc(collection(db, 'users'), {
       ...user,
       createdAt: userTimestamp,
       updatedAt: userTimestamp
@@ -81,7 +84,7 @@ async function seedFromCSV() {
     const categoryIdMap: { [key: string]: string } = {};
     
     for (const category of categoriesData) {
-      const docRef = await addDoc(collection(db, 'productCategories'), {
+      const docRef = await safeAddDoc(collection(db, 'productCategories'), {
         name: category.name || category.Name || '',
         description: category.description || category.Description || '',
         image_url: category.image_url || category['Image URL'] || '',
@@ -124,7 +127,7 @@ async function seedFromCSV() {
         continue;
       }
 
-      await addDoc(collection(db, 'products'), {
+      await safeAddDoc(collection(db, 'products'), {
         name: product.name || product.Name || '',
         description: product.description || product.Description || '',
         price: parseFloat(product.price || product.Price || 0),

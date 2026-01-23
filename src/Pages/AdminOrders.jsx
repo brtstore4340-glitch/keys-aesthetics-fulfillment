@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+const _jsxFileName = "";﻿import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useOrders } from '@/hooks/useFirebase'
@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+
 import {
   Select,
   SelectContent,
@@ -21,20 +21,20 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { toast } from 'sonner'
-import { Order } from '@/types'
+
 
 export default function AdminOrders() {
   const { currentUser } = useAuth()
   const { orders, loading, updateOrder } = useOrders()
-  const [filterStatus, setFilterStatus] = useState<string>('all')
+  const [filterStatus, setFilterStatus] = useState('all')
 
   if (!currentUser) return null
 
   if (loading) {
     return (
-      <DashboardLayout user={currentUser}>
-        <LoadingSpinner />
-      </DashboardLayout>
+      React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 35}}
+        , React.createElement(LoadingSpinner, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 36}} )
+      )
     )
   }
 
@@ -42,7 +42,7 @@ export default function AdminOrders() {
     ? orders 
     : orders.filter(o => o.status === filterStatus)
 
-  const handleStatusChange = async (orderId: string, newStatus) => {
+  const handleStatusChange = async (orderId, newStatus) => {
     try {
       await updateOrder(orderId, { status: newStatus })
       toast.success('Order status updated')
@@ -63,85 +63,85 @@ export default function AdminOrders() {
   }
 
   return (
-    <DashboardLayout user={currentUser}>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">All Orders</h1>
-            <p className="text-muted-foreground">Manage customer orders</p>
-          </div>
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Orders</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="confirmed">Confirmed</SelectItem>
-              <SelectItem value="processing">Processing</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 66}}
+      , React.createElement('div', { className: "space-y-6", __self: this, __source: {fileName: _jsxFileName, lineNumber: 67}}
+        , React.createElement('div', { className: "flex items-center justify-between"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 68}}
+          , React.createElement('div', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 69}}
+            , React.createElement('h1', { className: "text-3xl font-bold" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 70}}, "All Orders" )
+            , React.createElement('p', { className: "text-muted-foreground", __self: this, __source: {fileName: _jsxFileName, lineNumber: 71}}, "Manage customer orders"  )
+          )
+          , React.createElement(Select, { value: filterStatus, onValueChange: setFilterStatus, __self: this, __source: {fileName: _jsxFileName, lineNumber: 73}}
+            , React.createElement(SelectTrigger, { className: "w-[180px]", __self: this, __source: {fileName: _jsxFileName, lineNumber: 74}}
+              , React.createElement(SelectValue, { placeholder: "Filter by status"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 75}} )
+            )
+            , React.createElement(SelectContent, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 77}}
+              , React.createElement(SelectItem, { value: "all", __self: this, __source: {fileName: _jsxFileName, lineNumber: 78}}, "All Orders" )
+              , React.createElement(SelectItem, { value: "pending", __self: this, __source: {fileName: _jsxFileName, lineNumber: 79}}, "Pending")
+              , React.createElement(SelectItem, { value: "confirmed", __self: this, __source: {fileName: _jsxFileName, lineNumber: 80}}, "Confirmed")
+              , React.createElement(SelectItem, { value: "processing", __self: this, __source: {fileName: _jsxFileName, lineNumber: 81}}, "Processing")
+              , React.createElement(SelectItem, { value: "completed", __self: this, __source: {fileName: _jsxFileName, lineNumber: 82}}, "Completed")
+              , React.createElement(SelectItem, { value: "cancelled", __self: this, __source: {fileName: _jsxFileName, lineNumber: 83}}, "Cancelled")
+            )
+          )
+        )
 
-        <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Order #</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Sales Rep</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredOrders.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                    No orders found
-                  </TableCell>
-                </TableRow>
+        , React.createElement('div', { className: "border rounded-lg" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 88}}
+          , React.createElement(Table, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 89}}
+            , React.createElement(TableHeader, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 90}}
+              , React.createElement(TableRow, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 91}}
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 92}}, "Order #" )
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 93}}, "Customer")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 94}}, "Phone")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 95}}, "Sales Rep" )
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 96}}, "Total")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 97}}, "Status")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 98}}, "Actions")
+              )
+            )
+            , React.createElement(TableBody, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 101}}
+              , filteredOrders.length === 0 ? (
+                React.createElement(TableRow, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 103}}
+                  , React.createElement(TableCell, { colSpan: 7, className: "text-center py-8 text-muted-foreground"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 104}}, "No orders found"
+
+                  )
+                )
               ) : (
                 filteredOrders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell className="font-medium">{order.order_number}</TableCell>
-                    <TableCell>{order.customer_name}</TableCell>
-                    <TableCell>{order.customer_phone}</TableCell>
-                    <TableCell>{order.sales_rep_name || '-'}</TableCell>
-                    <TableCell>฿{order.total_amount.toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Badge className={getStatusColor(order.status)}>
-                        {order.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={order.status}
-                        onValueChange={(value) => handleStatusChange(order.id, value)}
-                      >
-                        <SelectTrigger className="w-[130px]">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="confirmed">Confirmed</SelectItem>
-                          <SelectItem value="processing">Processing</SelectItem>
-                          <SelectItem value="completed">Completed</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                  </TableRow>
+                  React.createElement(TableRow, { key: order.id, __self: this, __source: {fileName: _jsxFileName, lineNumber: 110}}
+                    , React.createElement(TableCell, { className: "font-medium", __self: this, __source: {fileName: _jsxFileName, lineNumber: 111}}, order.order_number)
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 112}}, order.customer_name)
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 113}}, order.customer_phone)
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 114}}, order.sales_rep_name || '-')
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 115}}, "฿", order.total_amount.toLocaleString())
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 116}}
+                      , React.createElement(Badge, { className: getStatusColor(order.status), __self: this, __source: {fileName: _jsxFileName, lineNumber: 117}}
+                        , order.status
+                      )
+                    )
+                    , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 121}}
+                      , React.createElement(Select, {
+                        value: order.status,
+                        onValueChange: (value) => handleStatusChange(order.id, value), __self: this, __source: {fileName: _jsxFileName, lineNumber: 122}}
+
+                        , React.createElement(SelectTrigger, { className: "w-[130px]", __self: this, __source: {fileName: _jsxFileName, lineNumber: 126}}
+                          , React.createElement(SelectValue, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 127}} )
+                        )
+                        , React.createElement(SelectContent, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 129}}
+                          , React.createElement(SelectItem, { value: "pending", __self: this, __source: {fileName: _jsxFileName, lineNumber: 130}}, "Pending")
+                          , React.createElement(SelectItem, { value: "confirmed", __self: this, __source: {fileName: _jsxFileName, lineNumber: 131}}, "Confirmed")
+                          , React.createElement(SelectItem, { value: "processing", __self: this, __source: {fileName: _jsxFileName, lineNumber: 132}}, "Processing")
+                          , React.createElement(SelectItem, { value: "completed", __self: this, __source: {fileName: _jsxFileName, lineNumber: 133}}, "Completed")
+                          , React.createElement(SelectItem, { value: "cancelled", __self: this, __source: {fileName: _jsxFileName, lineNumber: 134}}, "Cancelled")
+                        )
+                      )
+                    )
+                  )
                 ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-    </DashboardLayout>
+              )
+            )
+          )
+        )
+      )
+    )
   )
 }

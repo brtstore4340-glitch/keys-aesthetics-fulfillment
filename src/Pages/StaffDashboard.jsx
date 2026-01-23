@@ -1,4 +1,4 @@
-﻿import { useAuth } from '@/contexts/AuthContext'
+const _jsxFileName = ""; function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }﻿import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useOrders } from '@/hooks/useFirebase'
@@ -10,15 +10,15 @@ import { useNavigate } from 'react-router-dom'
 export default function StaffDashboard() {
   const { currentUser } = useAuth()
   const navigate = useNavigate()
-  const { orders, loading } = useOrders(undefined, currentUser?.id)
+  const { orders, loading } = useOrders(undefined, _optionalChain([currentUser, 'optionalAccess', _ => _.id]))
 
   if (!currentUser) return null
 
   if (loading) {
     return (
-      <DashboardLayout user={currentUser}>
-        <LoadingSpinner />
-      </DashboardLayout>
+      React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 19}}
+        , React.createElement(LoadingSpinner, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 20}} )
+      )
     )
   }
 
@@ -55,65 +55,65 @@ export default function StaffDashboard() {
   ]
 
   return (
-    <DashboardLayout user={currentUser}>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Welcome, {currentUser.name}!</h1>
-            <p className="text-muted-foreground">Here's your sales overview</p>
-          </div>
-          <Button onClick={() => navigate('/staff/create-order')}>
-            Create New Order
-          </Button>
-        </div>
+    React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 58}}
+      , React.createElement('div', { className: "space-y-6", __self: this, __source: {fileName: _jsxFileName, lineNumber: 59}}
+        , React.createElement('div', { className: "flex items-center justify-between"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 60}}
+          , React.createElement('div', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 61}}
+            , React.createElement('h1', { className: "text-3xl font-bold" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 62}}, "Welcome, " , currentUser.name, "!")
+            , React.createElement('p', { className: "text-muted-foreground", __self: this, __source: {fileName: _jsxFileName, lineNumber: 63}}, "Here's your sales overview"   )
+          )
+          , React.createElement(Button, { onClick: () => navigate('/staff/create-order'), __self: this, __source: {fileName: _jsxFileName, lineNumber: 65}}, "Create New Order"
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => {
+          )
+        )
+
+        , React.createElement('div', { className: "grid gap-4 md:grid-cols-2 lg:grid-cols-4"   , __self: this, __source: {fileName: _jsxFileName, lineNumber: 70}}
+          , stats.map((stat) => {
             const Icon = stat.icon
             return (
-              <Card key={stat.title}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    {stat.title}
-                  </CardTitle>
-                  <Icon className={stat.color + ' h-4 w-4'} />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{stat.value}</div>
-                </CardContent>
-              </Card>
+              React.createElement(Card, { key: stat.title, __self: this, __source: {fileName: _jsxFileName, lineNumber: 74}}
+                , React.createElement(CardHeader, { className: "flex flex-row items-center justify-between space-y-0 pb-2"     , __self: this, __source: {fileName: _jsxFileName, lineNumber: 75}}
+                  , React.createElement(CardTitle, { className: "text-sm font-medium" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 76}}
+                    , stat.title
+                  )
+                  , React.createElement(Icon, { className: stat.color + ' h-4 w-4', __self: this, __source: {fileName: _jsxFileName, lineNumber: 79}} )
+                )
+                , React.createElement(CardContent, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 81}}
+                  , React.createElement('div', { className: "text-2xl font-bold" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 82}}, stat.value)
+                )
+              )
             )
-          })}
-        </div>
+          })
+        )
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {myOrders.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
-                No orders yet. Create your first order
-              </p>
+        , React.createElement(Card, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 89}}
+          , React.createElement(CardHeader, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 90}}
+            , React.createElement(CardTitle, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 91}}, "Recent Orders" )
+          )
+          , React.createElement(CardContent, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 93}}
+            , myOrders.length === 0 ? (
+              React.createElement('p', { className: "text-muted-foreground text-center py-8"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 95}}, "No orders yet. Create your first order"
+
+              )
             ) : (
-              <div className="space-y-2">
-                {myOrders.slice(0, 5).map(order => (
-                  <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg">
-                    <div>
-                      <p className="font-medium">{order.order_number}</p>
-                      <p className="text-sm text-muted-foreground">{order.customer_name}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium">฿{order.total_amount.toLocaleString()}</p>
-                      <span className="text-xs capitalize">{order.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </DashboardLayout>
+              React.createElement('div', { className: "space-y-2", __self: this, __source: {fileName: _jsxFileName, lineNumber: 99}}
+                , myOrders.slice(0, 5).map(order => (
+                  React.createElement('div', { key: order.id, className: "flex items-center justify-between p-3 border rounded-lg"     , __self: this, __source: {fileName: _jsxFileName, lineNumber: 101}}
+                    , React.createElement('div', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 102}}
+                      , React.createElement('p', { className: "font-medium", __self: this, __source: {fileName: _jsxFileName, lineNumber: 103}}, order.order_number)
+                      , React.createElement('p', { className: "text-sm text-muted-foreground" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 104}}, order.customer_name)
+                    )
+                    , React.createElement('div', { className: "text-right", __self: this, __source: {fileName: _jsxFileName, lineNumber: 106}}
+                      , React.createElement('p', { className: "font-medium", __self: this, __source: {fileName: _jsxFileName, lineNumber: 107}}, "฿", order.total_amount.toLocaleString())
+                      , React.createElement('span', { className: "text-xs capitalize" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 108}}, order.status)
+                    )
+                  )
+                ))
+              )
+            )
+          )
+        )
+      )
+    )
   )
 }

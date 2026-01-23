@@ -1,4 +1,4 @@
-import * as React from "react"
+const _jsxFileName = ""; function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } } function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva } from "class-variance-authority";
 import { PanelLeft } from "lucide-react"
@@ -53,7 +53,7 @@ const SidebarProvider = React.forwardRef((
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
   const [_open, _setOpen] = React.useState(defaultOpen)
-  const open = openProp ?? _open
+  const open = _nullishCoalesce(openProp, () => ( _open))
   const setOpen = React.useCallback((value) => {
     const openState = typeof value === "function" ? value(open) : value
     if (setOpenProp) {
@@ -104,26 +104,26 @@ const SidebarProvider = React.forwardRef((
   }), [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar])
 
   return (
-    (<SidebarContext.Provider value={contextValue}>
-      <TooltipProvider delayDuration={0}>
-        <div
-          style={
+    (React.createElement(SidebarContext.Provider, { value: contextValue, __self: this, __source: {fileName: _jsxFileName, lineNumber: 107}}
+      , React.createElement(TooltipProvider, { delayDuration: 0, __self: this, __source: {fileName: _jsxFileName, lineNumber: 108}}
+        , React.createElement('div', {
+          style: 
             {
               "--sidebar-width": SIDEBAR_WIDTH,
               "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
               ...style
             }
-          }
-          className={cn(
+          ,
+          className: cn(
             "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
             className
-          )}
-          ref={ref}
-          {...props}>
-          {children}
-        </div>
-      </TooltipProvider>
-    </SidebarContext.Provider>)
+          ),
+          ref: ref,
+          ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 109}}
+          , children
+        )
+      )
+    ))
   );
 })
 SidebarProvider.displayName = "SidebarProvider"
@@ -143,57 +143,57 @@ const Sidebar = React.forwardRef((
 
   if (collapsible === "none") {
     return (
-      (<div
-        className={cn(
+      (React.createElement('div', {
+        className: cn(
           "flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground",
           className
-        )}
-        ref={ref}
-        {...props}>
-        {children}
-      </div>)
+        ),
+        ref: ref,
+        ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 146}}
+        , children
+      ))
     );
   }
 
   if (isMobile) {
     return (
-      (<Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-        <SheetContent
-          data-sidebar="sidebar"
-          data-mobile="true"
-          className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
-          style={
+      (React.createElement(Sheet, { open: openMobile, onOpenChange: setOpenMobile, ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 160}}
+        , React.createElement(SheetContent, {
+          'data-sidebar': "sidebar",
+          'data-mobile': "true",
+          className: "w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"    ,
+          style: 
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE
             }
-          }
-          side={side}>
-          <div className="flex h-full w-full flex-col">{children}</div>
-        </SheetContent>
-      </Sheet>)
+          ,
+          side: side, __self: this, __source: {fileName: _jsxFileName, lineNumber: 161}}
+          , React.createElement('div', { className: "flex h-full w-full flex-col"   , __self: this, __source: {fileName: _jsxFileName, lineNumber: 171}}, children)
+        )
+      ))
     );
   }
 
   return (
-    (<div
-      ref={ref}
-      className="group peer hidden text-sidebar-foreground md:block"
-      data-state={state}
-      data-collapsible={state === "collapsed" ? collapsible : ""}
-      data-variant={variant}
-      data-side={side}>
-      {/* This is what handles the sidebar gap on desktop */}
-      <div
-        className={cn(
+    (React.createElement('div', {
+      ref: ref,
+      className: "group peer hidden text-sidebar-foreground md:block"    ,
+      'data-state': state,
+      'data-collapsible': state === "collapsed" ? collapsible : "",
+      'data-variant': variant,
+      'data-side': side, __self: this, __source: {fileName: _jsxFileName, lineNumber: 178}}
+      /* This is what handles the sidebar gap on desktop */
+      , React.createElement('div', {
+        className: cn(
           "relative h-svh w-[--sidebar-width] bg-transparent transition-[width] duration-200 ease-linear",
           "group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           variant === "floating" || variant === "inset"
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4))]"
             : "group-data-[collapsible=icon]:w-[--sidebar-width-icon]"
-        )} />
-      <div
-        className={cn(
+        ), __self: this, __source: {fileName: _jsxFileName, lineNumber: 186}} )
+      , React.createElement('div', {
+        className: cn(
           "fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
@@ -203,15 +203,15 @@ const Sidebar = React.forwardRef((
             ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
             : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
           className
-        )}
-        {...props}>
-        <div
-          data-sidebar="sidebar"
-          className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow">
-          {children}
-        </div>
-      </div>
-    </div>)
+        ),
+        ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 195}}
+        , React.createElement('div', {
+          'data-sidebar': "sidebar",
+          className: "flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"        , __self: this, __source: {fileName: _jsxFileName, lineNumber: 208}}
+          , children
+        )
+      )
+    ))
   );
 })
 Sidebar.displayName = "Sidebar"
@@ -220,27 +220,27 @@ const SidebarTrigger = React.forwardRef(({ className, onClick, asChild = false, 
   const { toggleSidebar } = useSidebar()
 
   return (
-    (<Button
-      ref={ref}
-      data-sidebar="trigger"
-      variant="ghost"
-      size="icon"
-      className={cn("h-7 w-7", className)}
-      onClick={(event) => {
-        onClick?.(event)
+    (React.createElement(Button, {
+      ref: ref,
+      'data-sidebar': "trigger",
+      variant: "ghost",
+      size: "icon",
+      className: cn("h-7 w-7", className),
+      onClick: (event) => {
+        _optionalChain([onClick, 'optionalCall', _ => _(event)])
         toggleSidebar()
-      }}
-      asChild={asChild}
-      {...props}>
-      {asChild ? (
-        <PanelLeft />
+      },
+      asChild: asChild,
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 223}}
+      , asChild ? (
+        React.createElement(PanelLeft, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 236}} )
       ) : (
-        <>
-          <PanelLeft />
-          <span className="sr-only">Toggle Sidebar</span>
-        </>
-      )}
-    </Button>)
+        React.createElement(React.Fragment, null
+          , React.createElement(PanelLeft, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 239}} )
+          , React.createElement('span', { className: "sr-only", __self: this, __source: {fileName: _jsxFileName, lineNumber: 240}}, "Toggle Sidebar" )
+        )
+      )
+    ))
   );
 })
 SidebarTrigger.displayName = "SidebarTrigger"
@@ -249,14 +249,14 @@ const SidebarRail = React.forwardRef(({ className, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
 
   return (
-    (<button
-      ref={ref}
-      data-sidebar="rail"
-      aria-label="Toggle Sidebar"
-      tabIndex={-1}
-      onClick={toggleSidebar}
-      title="Toggle Sidebar"
-      className={cn(
+    (React.createElement('button', {
+      ref: ref,
+      'data-sidebar': "rail",
+      'aria-label': "Toggle Sidebar" ,
+      tabIndex: -1,
+      onClick: toggleSidebar,
+      title: "Toggle Sidebar" ,
+      className: cn(
         "absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex",
         "[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize",
         "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
@@ -264,94 +264,94 @@ const SidebarRail = React.forwardRef(({ className, ...props }, ref) => {
         "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2",
         "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 252}} ))
   );
 })
 SidebarRail.displayName = "SidebarRail"
 
 const SidebarInset = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<main
-      ref={ref}
-      className={cn(
+    (React.createElement('main', {
+      ref: ref,
+      className: cn(
         "relative flex min-h-svh flex-1 flex-col bg-background",
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 275}} ))
   );
 })
 SidebarInset.displayName = "SidebarInset"
 
 const SidebarInput = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<Input
-      ref={ref}
-      data-sidebar="input"
-      className={cn(
+    (React.createElement(Input, {
+      ref: ref,
+      'data-sidebar': "input",
+      className: cn(
         "h-8 w-full bg-background shadow-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 289}} ))
   );
 })
 SidebarInput.displayName = "SidebarInput"
 
 const SidebarHeader = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<div
-      ref={ref}
-      data-sidebar="header"
-      className={cn("flex flex-col gap-2 p-2", className)}
-      {...props} />)
+    (React.createElement('div', {
+      ref: ref,
+      'data-sidebar': "header",
+      className: cn("flex flex-col gap-2 p-2", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 303}} ))
   );
 })
 SidebarHeader.displayName = "SidebarHeader"
 
 const SidebarFooter = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<div
-      ref={ref}
-      data-sidebar="footer"
-      className={cn("flex flex-col gap-2 p-2", className)}
-      {...props} />)
+    (React.createElement('div', {
+      ref: ref,
+      'data-sidebar': "footer",
+      className: cn("flex flex-col gap-2 p-2", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 314}} ))
   );
 })
 SidebarFooter.displayName = "SidebarFooter"
 
 const SidebarSeparator = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<Separator
-      ref={ref}
-      data-sidebar="separator"
-      className={cn("mx-2 w-auto bg-sidebar-border", className)}
-      {...props} />)
+    (React.createElement(Separator, {
+      ref: ref,
+      'data-sidebar': "separator",
+      className: cn("mx-2 w-auto bg-sidebar-border", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 325}} ))
   );
 })
 SidebarSeparator.displayName = "SidebarSeparator"
 
 const SidebarContent = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<div
-      ref={ref}
-      data-sidebar="content"
-      className={cn(
+    (React.createElement('div', {
+      ref: ref,
+      'data-sidebar': "content",
+      className: cn(
         "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 336}} ))
   );
 })
 SidebarContent.displayName = "SidebarContent"
 
 const SidebarGroup = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    (<div
-      ref={ref}
-      data-sidebar="group"
-      className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
-      {...props} />)
+    (React.createElement('div', {
+      ref: ref,
+      'data-sidebar': "group",
+      className: cn("relative flex w-full min-w-0 flex-col p-2", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 350}} ))
   );
 })
 SidebarGroup.displayName = "SidebarGroup"
@@ -360,15 +360,15 @@ const SidebarGroupLabel = React.forwardRef(({ className, asChild = false, ...pro
   const Comp = asChild ? Slot : "div"
 
   return (
-    (<Comp
-      ref={ref}
-      data-sidebar="group-label"
-      className={cn(
+    (React.createElement(Comp, {
+      ref: ref,
+      'data-sidebar': "group-label",
+      className: cn(
         "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 363}} ))
   );
 })
 SidebarGroupLabel.displayName = "SidebarGroupLabel"
@@ -377,45 +377,45 @@ const SidebarGroupAction = React.forwardRef(({ className, asChild = false, ...pr
   const Comp = asChild ? Slot : "button"
 
   return (
-    (<Comp
-      ref={ref}
-      data-sidebar="group-action"
-      className={cn(
+    (React.createElement(Comp, {
+      ref: ref,
+      'data-sidebar': "group-action",
+      className: cn(
         "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
         "group-data-[collapsible=icon]:hidden",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 380}} ))
   );
 })
 SidebarGroupAction.displayName = "SidebarGroupAction"
 
 const SidebarGroupContent = React.forwardRef(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    data-sidebar="group-content"
-    className={cn("w-full text-sm", className)}
-    {...props} />
+  React.createElement('div', {
+    ref: ref,
+    'data-sidebar': "group-content",
+    className: cn("w-full text-sm", className),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 396}} )
 ))
 SidebarGroupContent.displayName = "SidebarGroupContent"
 
 const SidebarMenu = React.forwardRef(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    data-sidebar="menu"
-    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
-    {...props} />
+  React.createElement('ul', {
+    ref: ref,
+    'data-sidebar': "menu",
+    className: cn("flex w-full min-w-0 flex-col gap-1", className),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 405}} )
 ))
 SidebarMenu.displayName = "SidebarMenu"
 
 const SidebarMenuItem = React.forwardRef(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    data-sidebar="menu-item"
-    className={cn("group/menu-item relative", className)}
-    {...props} />
+  React.createElement('li', {
+    ref: ref,
+    'data-sidebar': "menu-item",
+    className: cn("group/menu-item relative", className),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 414}} )
 ))
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
@@ -457,13 +457,13 @@ const SidebarMenuButton = React.forwardRef((
   const { isMobile, state } = useSidebar()
 
   const button = (
-    <Comp
-      ref={ref}
-      data-sidebar="menu-button"
-      data-size={size}
-      data-active={isActive}
-      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      {...props} />
+    React.createElement(Comp, {
+      ref: ref,
+      'data-sidebar': "menu-button",
+      'data-size': size,
+      'data-active': isActive,
+      className: cn(sidebarMenuButtonVariants({ variant, size }), className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 460}} )
   )
 
   if (!tooltip) {
@@ -477,14 +477,14 @@ const SidebarMenuButton = React.forwardRef((
   }
 
   return (
-    (<Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        hidden={state !== "collapsed" || isMobile}
-        {...tooltip} />
-    </Tooltip>)
+    (React.createElement(Tooltip, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 480}}
+      , React.createElement(TooltipTrigger, { asChild: true, __self: this, __source: {fileName: _jsxFileName, lineNumber: 481}}, button)
+      , React.createElement(TooltipContent, {
+        side: "right",
+        align: "center",
+        hidden: state !== "collapsed" || isMobile,
+        ...tooltip, __self: this, __source: {fileName: _jsxFileName, lineNumber: 482}} )
+    ))
   );
 })
 SidebarMenuButton.displayName = "SidebarMenuButton"
@@ -493,10 +493,10 @@ const SidebarMenuAction = React.forwardRef(({ className, asChild = false, showOn
   const Comp = asChild ? Slot : "button"
 
   return (
-    (<Comp
-      ref={ref}
-      data-sidebar="menu-action"
-      className={cn(
+    (React.createElement(Comp, {
+      ref: ref,
+      'data-sidebar': "menu-action",
+      className: cn(
         "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground outline-none ring-sidebar-ring transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 peer-hover/menu-button:text-sidebar-accent-foreground [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
@@ -507,17 +507,17 @@ const SidebarMenuAction = React.forwardRef(({ className, asChild = false, showOn
         showOnHover &&
         "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 496}} ))
   );
 })
 SidebarMenuAction.displayName = "SidebarMenuAction"
 
 const SidebarMenuBadge = React.forwardRef(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    data-sidebar="menu-badge"
-    className={cn(
+  React.createElement('div', {
+    ref: ref,
+    'data-sidebar': "menu-badge",
+    className: cn(
       "pointer-events-none absolute right-1 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground",
       "peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground",
       "peer-data-[size=sm]/menu-button:top-1",
@@ -525,8 +525,8 @@ const SidebarMenuBadge = React.forwardRef(({ className, ...props }, ref) => (
       "peer-data-[size=lg]/menu-button:top-2.5",
       "group-data-[collapsible=icon]:hidden",
       className
-    )}
-    {...props} />
+    ),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 517}} )
 ))
 SidebarMenuBadge.displayName = "SidebarMenuBadge"
 
@@ -537,41 +537,41 @@ const SidebarMenuSkeleton = React.forwardRef(({ className, showIcon = false, ...
   }, [])
 
   return (
-    (<div
-      ref={ref}
-      data-sidebar="menu-skeleton"
-      className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
-      {...props}>
-      {showIcon && (
-        <Skeleton className="size-4 rounded-md" data-sidebar="menu-skeleton-icon" />
-      )}
-      <Skeleton
-        className="h-4 max-w-[--skeleton-width] flex-1"
-        data-sidebar="menu-skeleton-text"
-        style={
+    (React.createElement('div', {
+      ref: ref,
+      'data-sidebar': "menu-skeleton",
+      className: cn("flex h-8 items-center gap-2 rounded-md px-2", className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 540}}
+      , showIcon && (
+        React.createElement(Skeleton, { className: "size-4 rounded-md" , 'data-sidebar': "menu-skeleton-icon", __self: this, __source: {fileName: _jsxFileName, lineNumber: 546}} )
+      )
+      , React.createElement(Skeleton, {
+        className: "h-4 max-w-[--skeleton-width] flex-1"  ,
+        'data-sidebar': "menu-skeleton-text",
+        style: 
           {
             "--skeleton-width": width
           }
-        } />
-    </div>)
+        , __self: this, __source: {fileName: _jsxFileName, lineNumber: 548}} )
+    ))
   );
 })
 SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef(({ className, ...props }, ref) => (
-  <ul
-    ref={ref}
-    data-sidebar="menu-sub"
-    className={cn(
+  React.createElement('ul', {
+    ref: ref,
+    'data-sidebar': "menu-sub",
+    className: cn(
       "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
       "group-data-[collapsible=icon]:hidden",
       className
-    )}
-    {...props} />
+    ),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 562}} )
 ))
 SidebarMenuSub.displayName = "SidebarMenuSub"
 
-const SidebarMenuSubItem = React.forwardRef(({ ...props }, ref) => <li ref={ref} {...props} />)
+const SidebarMenuSubItem = React.forwardRef(({ ...props }, ref) => React.createElement('li', { ref: ref, ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 574}} ))
 SidebarMenuSubItem.displayName = "SidebarMenuSubItem"
 
 const SidebarMenuSubButton = React.forwardRef(
@@ -579,20 +579,20 @@ const SidebarMenuSubButton = React.forwardRef(
     const Comp = asChild ? Slot : "a"
 
     return (
-      (<Comp
-        ref={ref}
-        data-sidebar="menu-sub-button"
-        data-size={size}
-        data-active={isActive}
-        className={cn(
+      (React.createElement(Comp, {
+        ref: ref,
+        'data-sidebar': "menu-sub-button",
+        'data-size': size,
+        'data-active': isActive,
+        className: cn(
           "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
           "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
           size === "sm" && "text-xs",
           size === "md" && "text-sm",
           "group-data-[collapsible=icon]:hidden",
           className
-        )}
-        {...props} />)
+        ),
+        ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 582}} ))
     );
   }
 )

@@ -1,4 +1,4 @@
-"use client";
+const _jsxFileName = "";"use client";
 import * as React from "react"
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
 
@@ -11,14 +11,14 @@ const ToggleGroupContext = React.createContext({
 })
 
 const ToggleGroup = React.forwardRef(({ className, variant, size, children, ...props }, ref) => (
-  <ToggleGroupPrimitive.Root
-    ref={ref}
-    className={cn("flex items-center justify-center gap-1", className)}
-    {...props}>
-    <ToggleGroupContext.Provider value={{ variant, size }}>
-      {children}
-    </ToggleGroupContext.Provider>
-  </ToggleGroupPrimitive.Root>
+  React.createElement(ToggleGroupPrimitive.Root, {
+    ref: ref,
+    className: cn("flex items-center justify-center gap-1", className),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 14}}
+    , React.createElement(ToggleGroupContext.Provider, { value: { variant, size }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 18}}
+      , children
+    )
+  )
 ))
 
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName
@@ -27,15 +27,15 @@ const ToggleGroupItem = React.forwardRef(({ className, children, variant, size, 
   const context = React.useContext(ToggleGroupContext)
 
   return (
-    (<ToggleGroupPrimitive.Item
-      ref={ref}
-      className={cn(toggleVariants({
+    (React.createElement(ToggleGroupPrimitive.Item, {
+      ref: ref,
+      className: cn(toggleVariants({
         variant: context.variant || variant,
         size: context.size || size,
-      }), className)}
-      {...props}>
-      {children}
-    </ToggleGroupPrimitive.Item>)
+      }), className),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 30}}
+      , children
+    ))
   );
 })
 

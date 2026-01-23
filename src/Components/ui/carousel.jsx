@@ -1,4 +1,4 @@
-import * as React from "react"
+const _jsxFileName = ""; function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }import * as React from "react"
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
@@ -46,11 +46,11 @@ const Carousel = React.forwardRef((
   }, [])
 
   const scrollPrev = React.useCallback(() => {
-    api?.scrollPrev()
+    _optionalChain([api, 'optionalAccess', _ => _.scrollPrev, 'call', _2 => _2()])
   }, [api])
 
   const scrollNext = React.useCallback(() => {
-    api?.scrollNext()
+    _optionalChain([api, 'optionalAccess', _3 => _3.scrollNext, 'call', _4 => _4()])
   }, [api])
 
   const handleKeyDown = React.useCallback((event) => {
@@ -81,33 +81,33 @@ const Carousel = React.forwardRef((
     api.on("select", onSelect)
 
     return () => {
-      api?.off("select", onSelect)
+      _optionalChain([api, 'optionalAccess', _5 => _5.off, 'call', _6 => _6("select", onSelect)])
     };
   }, [api, onSelect])
 
   return (
-    (<CarouselContext.Provider
-      value={{
+    (React.createElement(CarouselContext.Provider, {
+      value: {
         carouselRef,
         api: api,
         opts,
         orientation:
-          orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          orientation || (_optionalChain([opts, 'optionalAccess', _7 => _7.axis]) === "y" ? "vertical" : "horizontal"),
         scrollPrev,
         scrollNext,
         canScrollPrev,
         canScrollNext,
-      }}>
-      <div
-        ref={ref}
-        onKeyDownCapture={handleKeyDown}
-        className={cn("relative", className)}
-        role="region"
-        aria-roledescription="carousel"
-        {...props}>
-        {children}
-      </div>
-    </CarouselContext.Provider>)
+      }, __self: this, __source: {fileName: _jsxFileName, lineNumber: 89}}
+      , React.createElement('div', {
+        ref: ref,
+        onKeyDownCapture: handleKeyDown,
+        className: cn("relative", className),
+        role: "region",
+        'aria-roledescription': "carousel",
+        ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 101}}
+        , children
+      )
+    ))
   );
 })
 Carousel.displayName = "Carousel"
@@ -116,16 +116,16 @@ const CarouselContent = React.forwardRef(({ className, ...props }, ref) => {
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    (<div ref={carouselRef} className="overflow-hidden">
-      <div
-        ref={ref}
-        className={cn(
+    (React.createElement('div', { ref: carouselRef, className: "overflow-hidden", __self: this, __source: {fileName: _jsxFileName, lineNumber: 119}}
+      , React.createElement('div', {
+        ref: ref,
+        className: cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
           className
-        )}
-        {...props} />
-    </div>)
+        ),
+        ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 120}} )
+    ))
   );
 })
 CarouselContent.displayName = "CarouselContent"
@@ -134,16 +134,16 @@ const CarouselItem = React.forwardRef(({ className, ...props }, ref) => {
   const { orientation } = useCarousel()
 
   return (
-    (<div
-      ref={ref}
-      role="group"
-      aria-roledescription="slide"
-      className={cn(
+    (React.createElement('div', {
+      ref: ref,
+      role: "group",
+      'aria-roledescription': "slide",
+      className: cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
-      )}
-      {...props} />)
+      ),
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 137}} ))
   );
 })
 CarouselItem.displayName = "CarouselItem"
@@ -152,19 +152,19 @@ const CarouselPrevious = React.forwardRef(({ className, variant = "outline", siz
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
-    (<Button
-      ref={ref}
-      variant={variant}
-      size={size}
-      className={cn("absolute  h-8 w-8 rounded-full", orientation === "horizontal"
+    (React.createElement(Button, {
+      ref: ref,
+      variant: variant,
+      size: size,
+      className: cn("absolute  h-8 w-8 rounded-full", orientation === "horizontal"
         ? "-left-12 top-1/2 -translate-y-1/2"
-        : "-top-12 left-1/2 -translate-x-1/2 rotate-90", className)}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
-      {...props}>
-      <ArrowLeft className="h-4 w-4" />
-      <span className="sr-only">Previous slide</span>
-    </Button>)
+        : "-top-12 left-1/2 -translate-x-1/2 rotate-90", className),
+      disabled: !canScrollPrev,
+      onClick: scrollPrev,
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 155}}
+      , React.createElement(ArrowLeft, { className: "h-4 w-4" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 165}} )
+      , React.createElement('span', { className: "sr-only", __self: this, __source: {fileName: _jsxFileName, lineNumber: 166}}, "Previous slide" )
+    ))
   );
 })
 CarouselPrevious.displayName = "CarouselPrevious"
@@ -173,19 +173,19 @@ const CarouselNext = React.forwardRef(({ className, variant = "outline", size = 
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
-    (<Button
-      ref={ref}
-      variant={variant}
-      size={size}
-      className={cn("absolute h-8 w-8 rounded-full", orientation === "horizontal"
+    (React.createElement(Button, {
+      ref: ref,
+      variant: variant,
+      size: size,
+      className: cn("absolute h-8 w-8 rounded-full", orientation === "horizontal"
         ? "-right-12 top-1/2 -translate-y-1/2"
-        : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", className)}
-      disabled={!canScrollNext}
-      onClick={scrollNext}
-      {...props}>
-      <ArrowRight className="h-4 w-4" />
-      <span className="sr-only">Next slide</span>
-    </Button>)
+        : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", className),
+      disabled: !canScrollNext,
+      onClick: scrollNext,
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 176}}
+      , React.createElement(ArrowRight, { className: "h-4 w-4" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 186}} )
+      , React.createElement('span', { className: "sr-only", __self: this, __source: {fileName: _jsxFileName, lineNumber: 187}}, "Next slide" )
+    ))
   );
 })
 CarouselNext.displayName = "CarouselNext"

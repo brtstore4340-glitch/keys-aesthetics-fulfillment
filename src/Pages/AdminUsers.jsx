@@ -1,3 +1,4 @@
+const _jsxFileName = "";import React from 'react' 
 import { useAuth } from '@/contexts/AuthContext'
 import { DashboardLayout } from '@/components/layout/DashboardLayout'
 import { useUsers } from '@/hooks/useFirebase'
@@ -21,9 +22,9 @@ export default function AdminUsers() {
 
   if (loading) {
     return (
-      <DashboardLayout user={currentUser}>
-        <LoadingSpinner />
-      </DashboardLayout>
+      React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 24}}
+        , React.createElement(LoadingSpinner, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 25}} )
+      )
     )
   }
 
@@ -46,53 +47,53 @@ export default function AdminUsers() {
   }
 
   return (
-    <DashboardLayout user={currentUser}>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Users</h1>
-          <p className="text-muted-foreground">Manage system users and permissions</p>
-        </div>
+    React.createElement(DashboardLayout, { user: currentUser, __self: this, __source: {fileName: _jsxFileName, lineNumber: 49}}
+      , React.createElement('div', { className: "space-y-6", __self: this, __source: {fileName: _jsxFileName, lineNumber: 50}}
+        , React.createElement('div', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 51}}
+          , React.createElement('h1', { className: "text-3xl font-bold" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 52}}, "Users")
+          , React.createElement('p', { className: "text-muted-foreground", __self: this, __source: {fileName: _jsxFileName, lineNumber: 53}}, "Manage system users and permissions"    )
+        )
 
-        <div className="border rounded-lg">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarImage src={user.avatar_url} />
-                        <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">{user.name}</p>
-                        <p className="text-sm text-muted-foreground">{user.id}</p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Badge className={getRoleBadgeColor(user.role)}>
-                      {user.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">Active</Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-    </DashboardLayout>
+        , React.createElement('div', { className: "border rounded-lg" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 56}}
+          , React.createElement(Table, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 57}}
+            , React.createElement(TableHeader, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 58}}
+              , React.createElement(TableRow, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 59}}
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 60}}, "User")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 61}}, "Email")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 62}}, "Role")
+                , React.createElement(TableHead, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 63}}, "Status")
+              )
+            )
+            , React.createElement(TableBody, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 66}}
+              , users.map((user) => (
+                React.createElement(TableRow, { key: user.id, __self: this, __source: {fileName: _jsxFileName, lineNumber: 68}}
+                  , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 69}}
+                    , React.createElement('div', { className: "flex items-center gap-3"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 70}}
+                      , React.createElement(Avatar, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 71}}
+                        , React.createElement(AvatarImage, { src: user.avatar_url, __self: this, __source: {fileName: _jsxFileName, lineNumber: 72}} )
+                        , React.createElement(AvatarFallback, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 73}}, getInitials(user.name))
+                      )
+                      , React.createElement('div', {__self: this, __source: {fileName: _jsxFileName, lineNumber: 75}}
+                        , React.createElement('p', { className: "font-medium", __self: this, __source: {fileName: _jsxFileName, lineNumber: 76}}, user.name)
+                        , React.createElement('p', { className: "text-sm text-muted-foreground" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 77}}, user.id)
+                      )
+                    )
+                  )
+                  , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 81}}, user.email)
+                  , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 82}}
+                    , React.createElement(Badge, { className: getRoleBadgeColor(user.role), __self: this, __source: {fileName: _jsxFileName, lineNumber: 83}}
+                      , user.role
+                    )
+                  )
+                  , React.createElement(TableCell, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 87}}
+                    , React.createElement(Badge, { variant: "outline", __self: this, __source: {fileName: _jsxFileName, lineNumber: 88}}, "Active")
+                  )
+                )
+              ))
+            )
+          )
+        )
+      )
+    )
   )
 }

@@ -1,0 +1,45 @@
+# BackgroundValidate: true
+# MODE: BUG_FIX
+# Fixes: ParserError "Missing ')' in method call" at line with ($md -join [Environment]::NewLine)
+# Root cause: the backtick + "n" inside a double-quoted string sometimes gets corrupted by copy/paste,
+# or the file contains an unmatched quote earlier, making PowerShell think "`n") is not closed.
+# Safest fix: replace all occurrences of -join [Environment]::NewLine with -join [Environment]::NewLine
+# (no quoting, no backticks).
+#
+# Blast radius:
+# - Modifies ONLY fix-eliminate-any.ps1 (safe)
+#
+# Regression:
+# - Re-run: .\fix-eliminate-any.ps1
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+$ScriptPath = 'D:\01 Main Work\Boots\Keys-Aesthetics\fix-eliminate-any.ps1'
+if (-not (Test-Path -LiteralPath $ScriptPath)) {
+  throw "Script not found: $ScriptPath"
+}
+
+$ts = (Get-Date).ToString('yyyyMMdd_HHmmss')
+Copy-Item -LiteralPath $ScriptPath -Destination "$ScriptPath.bak_$ts" -Force
+
+$txt = Get-Content -LiteralPath $ScriptPath -Raw -Encoding UTF8
+
+# Replace the fragile newline join pattern with a safe one
+# Handles: -join [Environment]::NewLine , -join [Environment]::NewLine
+$txt2 = $txt
+$txt2 = $txt2 -replace '-join\s+"`r`n"', '-join [Environment]::NewLine'
+$txt2 = $txt2 -replace '-join\s+"`n"', '-join [Environment]::NewLine'
+$txt2 = $txt2 -replace '-join\s+"`r"', '-join [Environment]::NewLine'
+
+[System.IO.File]::WriteAllText(
+  $ScriptPath,
+  $txt2,
+  [System.Text.UTF8Encoding]::new($false)
+)
+
+Write-Host "Patched newline joins safely in:" -ForegroundColor Cyan
+Write-Host " $ScriptPath" -ForegroundColor Green
+Write-Host ""
+Write-Host "Now run:" -ForegroundColor Yellow
+Write-Host ".\fix-eliminate-any.ps1" -ForegroundColor Yellow

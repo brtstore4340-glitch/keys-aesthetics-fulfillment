@@ -1,4 +1,4 @@
-import * as React from "react"
+const _jsxFileName = "";import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 
@@ -12,10 +12,10 @@ function Calendar({
   ...props
 }) {
   return (
-    (<DayPicker
-      showOutsideDays={showOutsideDays}
-      className={cn("p-3", className)}
-      classNames={{
+    (React.createElement(DayPicker, {
+      showOutsideDays: showOutsideDays,
+      className: cn("p-3", className),
+      classNames: {
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
         caption: "flex justify-center pt-1 relative items-center",
@@ -54,16 +54,16 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
-      }}
-      components={{
+      },
+      components: {
         IconLeft: ({ className, ...props }) => (
-          <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
+          React.createElement(ChevronLeft, { className: cn("h-4 w-4", className), ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 60}} )
         ),
         IconRight: ({ className, ...props }) => (
-          <ChevronRight className={cn("h-4 w-4", className)} {...props} />
+          React.createElement(ChevronRight, { className: cn("h-4 w-4", className), ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 63}} )
         ),
-      }}
-      {...props} />)
+      },
+      ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 15}} ))
   );
 }
 Calendar.displayName = "Calendar"

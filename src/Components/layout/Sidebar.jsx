@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom'
+const _jsxFileName = "";import { Link, useLocation } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard,
@@ -12,11 +12,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 
-interface SidebarProps {
-  role: 'admin' | 'staff' | 'accounting'
-}
 
-export function Sidebar({ role }: SidebarProps) {
+
+
+
+export function Sidebar({ role }) {
   const location = useLocation()
 
   const adminMenuItems = [
@@ -49,48 +49,48 @@ export function Sidebar({ role }: SidebarProps) {
   }
 
   return (
-    <div className="flex h-full w-64 flex-col border-r bg-background">
-      <div className="flex h-16 items-center border-b px-6">
-        <h1 className="text-xl font-bold">Keys Aesthetics</h1>
-      </div>
-      
-      <div className="flex-1 overflow-auto py-4">
-        <nav className="space-y-1 px-3">
-          {menuItems.map((item) => {
+    React.createElement('div', { className: "flex h-full w-64 flex-col border-r bg-background"     , __self: this, __source: {fileName: _jsxFileName, lineNumber: 52}}
+      , React.createElement('div', { className: "flex h-16 items-center border-b px-6"    , __self: this, __source: {fileName: _jsxFileName, lineNumber: 53}}
+        , React.createElement('h1', { className: "text-xl font-bold" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 54}}, "Keys Aesthetics" )
+      )
+
+      , React.createElement('div', { className: "flex-1 overflow-auto py-4"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 57}}
+        , React.createElement('nav', { className: "space-y-1 px-3" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 58}}
+          , menuItems.map((item) => {
             const Icon = item.icon
             const isActive = location.pathname === item.path
             
             return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
+              React.createElement(Link, {
+                key: item.path,
+                to: item.path,
+                className: cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
                   isActive
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                )}
-              >
-                <Icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
+                ), __self: this, __source: {fileName: _jsxFileName, lineNumber: 64}}
 
-      <Separator />
-      
-      <div className="p-4">
-        <Button
-          variant="ghost"
-          className="w-full justify-start"
-          onClick={handleLogout}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </Button>
-      </div>
-    </div>
+                , React.createElement(Icon, { className: "h-4 w-4" , __self: this, __source: {fileName: _jsxFileName, lineNumber: 74}} )
+                , item.label
+              )
+            )
+          })
+        )
+      )
+
+      , React.createElement(Separator, {__self: this, __source: {fileName: _jsxFileName, lineNumber: 82}} )
+
+      , React.createElement('div', { className: "p-4", __self: this, __source: {fileName: _jsxFileName, lineNumber: 84}}
+        , React.createElement(Button, {
+          variant: "ghost",
+          className: "w-full justify-start" ,
+          onClick: handleLogout, __self: this, __source: {fileName: _jsxFileName, lineNumber: 85}}
+
+          , React.createElement(LogOut, { className: "mr-2 h-4 w-4"  , __self: this, __source: {fileName: _jsxFileName, lineNumber: 90}} ), "Logout"
+
+        )
+      )
+    )
   )
 }

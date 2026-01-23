@@ -1,4 +1,4 @@
-import * as React from "react"
+const _jsxFileName = "";import * as React from "react"
 import * as TogglePrimitive from "@radix-ui/react-toggle"
 import { cva } from "class-variance-authority";
 
@@ -27,10 +27,10 @@ const toggleVariants = cva(
 )
 
 const Toggle = React.forwardRef(({ className, variant, size, ...props }, ref) => (
-  <TogglePrimitive.Root
-    ref={ref}
-    className={cn(toggleVariants({ variant, size, className }))}
-    {...props} />
+  React.createElement(TogglePrimitive.Root, {
+    ref: ref,
+    className: cn(toggleVariants({ variant, size, className })),
+    ...props, __self: this, __source: {fileName: _jsxFileName, lineNumber: 30}} )
 ))
 
 Toggle.displayName = TogglePrimitive.Root.displayName

@@ -1,0 +1,26 @@
+connectorId: example
+generate:
+  adminNodeSdk:
+    - outputDir: ..\..\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..
+    - outputDir: ..\..\no\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..\no
+    - outputDir: ..\..\keys-aesthetics-fulfillment\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..\keys-aesthetics-fulfillment
+    - outputDir: ..\..\functions\src\dataconnect-admin-generated
+      package: "@dataconnect/admin-generated"
+      packageJsonDir: ..\..\functions
+  javascriptSdk:
+    - outputDir: ..\..\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..
+      react: true
+      angular: false
+    - outputDir: ..\..\keys-aesthetics-fulfillment\src\dataconnect-generated
+      package: "@dataconnect/generated"
+      packageJsonDir: ..\..\keys-aesthetics-fulfillment
+      react: true
+      angular: false

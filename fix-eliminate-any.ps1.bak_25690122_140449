@@ -1,0 +1,230 @@
+# BackgroundValidate: true
+# MODE: BUG_FIX
+# Create any-inventory.md (since it doesn't exist) and start the "zero-error" systematic loop:
+# 1) Generate inventory (explicit any + as any) for functions/src and src
+# 2) Write any-inventory.md + any-summary.json
+# 3) Immediately apply ONLY the safest fixes (catch(e:any)->unknown, Promise/Array/Record<any> -> unknown)
+# 4) Re-generate inventory (post-fix) so we can start file-by-file work from the top offenders
+#
+# Blast radius:
+# - Creates: any-inventory.md, any-summary.json, any-inventory.after.md
+# - May modify TS files with low-risk replacements only (see step 3)
+#
+# Risks & mitigations:
+# - Risk: catch param unknown may require narrowing if code uses properties of error.
+#   Mitigation: we DO NOT touch usages; only change annotation. If it breaks build, we revert per-file from backups.
+#
+# Regression tests:
+# - cd functions; npm run lint
+# - repo root; npm run lint
+#
+# Performance/cost notes:
+# - None runtime.
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+function Write-Info([string]$msg) { Write-Host $msg -ForegroundColor Cyan }
+function Write-Warn([string]$msg) { Write-Host $msg -ForegroundColor Yellow }
+function Write-Ok([string]$msg) { Write-Host $msg -ForegroundColor Green }
+
+function Backup-File {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  if (-not (Test-Path -LiteralPath $Path)) { return $null }
+  $ts = (Get-Date).ToString('yyyyMMdd_HHmmss')
+  $bak = "$Path.bak_$ts"
+  Copy-Item -LiteralPath $Path -Destination $bak -Force
+  return $bak
+}
+
+function Read-TextFile {
+  param([Parameter(Mandatory=$true)][string]$Path)
+  return [System.IO.File]::ReadAllText($Path, [System.Text.UTF8Encoding]::new($false))
+}
+
+function Write-TextFile {
+  param([Parameter(Mandatory=$true)][string]$Path, [Parameter(Mandatory=$true)][string]$Content)
+  [System.IO.File]::WriteAllText($Path, $Content, [System.Text.UTF8Encoding]::new($false))
+}
+
+function Update-FileIfChanged {
+  param([Parameter(Mandatory=$true)][string]$Path, [Parameter(Mandatory=$true)][ScriptBlock]$Transform)
+  if (-not (Test-Path -LiteralPath $Path)) { return $false }
+  $before = Read-TextFile -Path $Path
+  $after = & $Transform $before
+  if ($after -ne $before) {
+    Backup-File -Path $Path | Out-Null
+    Write-TextFile -Path $Path -Content $after
+    return $true
+  }
+  return $false
+}
+
+function Get-TextFiles {
+  param([Parameter(Mandatory=$true)][string]$Root, [string[]]$Extensions)
+  $files = New-Object System.Collections.Generic.List[string]
+  foreach ($ext in $Extensions) {
+    Get-ChildItem -LiteralPath $Root -Recurse -File -Filter $ext -ErrorAction SilentlyContinue |
+      Where-Object { $_.FullName -notmatch '\\node_modules\\|\\dist\\|\\build\\|\\coverage\\|\\.firebase\\|\\\.git\\' } |
+      ForEach-Object { $files.Add($_.FullName) | Out-Null }
+  }
+  return $files.ToArray()
+}
+
+function Find-AnyMatchesInFile {
+  param([Parameter(Mandatory=$true)][string]$FilePath)
+
+  $text = Read-TextFile -Path $FilePath
+  $lines = $text -split "(`r`n|`n)"
+  $matches = New-Object System.Collections.Generic.List[object]
+
+  for ($i=0; $i -lt $lines.Length; $i++) {
+    $line = $lines[$i]
+    if (
+      $line -match ':\s*any\b' -or
+      $line -match '\bPromise<\s*any\s*>' -or
+      $line -match '\bArray<\s*any\s*>' -or
+      $line -match '\bRecord<\s*string\s*,\s*any\s*>' -or
+      $line -match '\bas\s+any\b' -or
+      $line -match '\)\s*:\s*any\b'
+    ) {
+      $matches.Add([pscustomobject]@{
+        file = $FilePath
+        line = ($i + 1)
+        text = $line.TrimEnd()
+      }) | Out-Null
+    }
+  }
+
+  return $matches.ToArray()
+}
+
+function Write-InventoryReport {
+  param(
+    [Parameter(Mandatory=$true)][object[]]$AllMatches,
+    [Parameter(Mandatory=$true)][string]$OutPathMd,
+    [Parameter(Mandatory=$true)][string]$OutPathJson
+  )
+
+  $grouped = $AllMatches | Group-Object file | Sort-Object Count -Descending
+
+  $md = New-Object System.Collections.Generic.List[string]
+  $md.Add("# any Inventory Report") | Out-Null
+  $md.Add("") | Out-Null
+  $md.Add("Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')") | Out-Null
+  $md.Add("") | Out-Null
+  $md.Add("Total matches: $($AllMatches.Count)") | Out-Null
+  $md.Add("") | Out-Null
+
+  foreach ($g in $grouped) {
+    $md.Add("## $($g.Name)  (count: $($g.Count))") | Out-Null
+    foreach ($item in ($g.Group | Sort-Object line)) {
+      $safe = $item.text.Replace('`','``')
+      $md.Add("- L$($item.line): `$( $safe )`") | Out-Null
+    }
+    $md.Add("") | Out-Null
+  }
+
+  Write-TextFile -Path $OutPathMd -Content ($md -join "`n")
+
+  $summary = @()
+  foreach ($g in $grouped) { $summary += [pscustomobject]@{ file = $g.Name; count = $g.Count } }
+  Write-TextFile -Path $OutPathJson -Content (($summary | ConvertTo-Json -Depth 5) + "`n")
+}
+
+function Apply-LowRiskAnyFixes {
+  param([Parameter(Mandatory=$true)][string]$FilePath)
+
+  Update-FileIfChanged -Path $FilePath -Transform {
+    param($t)
+
+    # SAFE replacements only:
+    $t = [regex]::Replace($t, '(?m)\bcatch\s*\(\s*([A-Za-z_]\w*)\s*:\s*any\s*\)', 'catch ($1: unknown)')
+    $t = [regex]::Replace($t, '\bPromise<\s*any\s*>', 'Promise<unknown>')
+    $t = [regex]::Replace($t, '\bArray<\s*any\s*>', 'Array<unknown>')
+    $t = [regex]::Replace($t, '\bRecord<\s*string\s*,\s*any\s*>', 'Record<string, unknown>')
+
+    return $t
+  } | Out-Null
+}
+
+function Try-RunNpm {
+  param([Parameter(Mandatory=$true)][string]$Dir, [Parameter(Mandatory=$true)][string]$Cmd)
+
+  if (-not (Test-Path -LiteralPath (Join-Path $Dir 'package.json'))) { return }
+  if (-not (Test-Path -LiteralPath (Join-Path $Dir 'node_modules'))) { return }
+
+  Push-Location $Dir
+  try {
+    Write-Info "Running: $Cmd @ $Dir"
+    cmd /c $Cmd | Out-Host
+  } catch {
+    Write-Warn "Command failed: $Cmd @ $Dir"
+    Write-Warn $_.Exception.Message
+  } finally {
+    Pop-Location
+  }
+}
+
+# ---- MAIN ----
+$RepoRoot = 'D:\01 Main Work\Boots\Keys-Aesthetics'
+if (-not (Test-Path -LiteralPath $RepoRoot)) { throw "Repo root not found: $RepoRoot" }
+
+$FunctionsSrc = Join-Path $RepoRoot 'functions\src'
+$FrontendSrc  = Join-Path $RepoRoot 'src'
+
+$scanRoots = @()
+if (Test-Path -LiteralPath $FunctionsSrc) { $scanRoots += $FunctionsSrc } else { Write-Warn "No functions/src found (skip functions scan)" }
+if (Test-Path -LiteralPath $FrontendSrc)  { $scanRoots += $FrontendSrc }  else { Write-Warn "No src found (skip frontend scan)" }
+
+if ($scanRoots.Count -eq 0) { throw "No scan roots found. Expected functions/src and/or src." }
+
+$exts = @('*.ts','*.tsx','*.js','*.jsx')
+
+Write-Info "1) Scanning for any usage..."
+$all = New-Object System.Collections.Generic.List[object]
+foreach ($root in $scanRoots) {
+  $files = Get-TextFiles -Root $root -Extensions $exts
+  foreach ($f in $files) {
+    try {
+      $m = Find-AnyMatchesInFile -FilePath $f
+      foreach ($x in $m) { $all.Add($x) | Out-Null }
+    } catch { continue }
+  }
+}
+
+$invMd = Join-Path $RepoRoot 'any-inventory.md'
+$invJson = Join-Path $RepoRoot 'any-summary.json'
+Write-InventoryReport -AllMatches $all.ToArray() -OutPathMd $invMd -OutPathJson $invJson
+Write-Ok "Created: $invMd"
+Write-Ok "Created: $invJson"
+
+Write-Info "2) Applying low-risk fixes (TS only)..."
+foreach ($root in $scanRoots) {
+  $files = Get-TextFiles -Root $root -Extensions @('*.ts','*.tsx')
+  foreach ($f in $files) {
+    Apply-LowRiskAnyFixes -FilePath $f
+  }
+}
+
+Write-Info "3) Re-scan after low-risk fixes..."
+$all2 = New-Object System.Collections.Generic.List[object]
+foreach ($root in $scanRoots) {
+  $files = Get-TextFiles -Root $root -Extensions $exts
+  foreach ($f in $files) {
+    try {
+      $m = Find-AnyMatchesInFile -FilePath $f
+      foreach ($x in $m) { $all2.Add($x) | Out-Null }
+    } catch { continue }
+  }
+}
+
+$invAfter = Join-Path $RepoRoot 'any-inventory.after.md'
+Write-InventoryReport -AllMatches $all2.ToArray() -OutPathMd $invAfter -OutPathJson $invJson
+Write-Ok "Created: $invAfter (use this for next round file-by-file)"
+
+Write-Info "4) Best-effort lint checks..."
+Try-RunNpm -Dir (Join-Path $RepoRoot 'functions') -Cmd 'npm run lint'
+Try-RunNpm -Dir $RepoRoot -Cmd 'npm run lint'
+
+Write-Ok "DONE. Next: paste the top section of any-inventory.after.md here, and I'll fix file #1 with zero-error."
