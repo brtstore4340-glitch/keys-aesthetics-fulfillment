@@ -34,3 +34,9 @@ dist-ssr
 .firebase/
 .firebaserc
 keys-aesthetics-fulfillment__backup_*
+.env.*
+*.bak
+*_backup_*
+_backup_*
+.backup-*
+.vite
