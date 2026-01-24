@@ -1,4 +1,5 @@
-import { collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, where, orderBy, Timestamp } from 'firebase/firestore';
+import { safeAddDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
+import { collection, doc, getDocs, getDoc, query, where, orderBy, Timestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 // Generic CRUD operations
 export class FirebaseService {
@@ -44,7 +45,7 @@ export class FirebaseService {
   async create(data) {
     try {
       const collectionRef = collection(db, this.collectionName);
-      const docRef = await addDoc(collectionRef, {
+      const docRef = await safeAddDoc(collectionRef, {
         ...data,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
@@ -60,7 +61,7 @@ export class FirebaseService {
   async update(id, data) {
     try {
       const docRef = doc(db, this.collectionName, id);
-      await updateDoc(docRef, {
+      await safeUpdateDoc(docRef, {
         ...data,
         updatedAt: Timestamp.now()
       });
@@ -74,7 +75,7 @@ export class FirebaseService {
   async delete(id) {
     try {
       const docRef = doc(db, this.collectionName, id);
-      await deleteDoc(docRef);
+      await safeDeleteDoc(docRef);
     } catch (error) {
       console.error(`Error deleting ${this.collectionName}:`, error);
       throw error;

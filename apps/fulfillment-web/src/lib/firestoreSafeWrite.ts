@@ -18,18 +18,18 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 
 function assertRef(ref: unknown, fnName: string): asserts ref is AnyRef {
   if (!ref || typeof ref !== 'object') {
-    throw new Error([FirestoreSafeWrite] : invalid ref);
+    throw new Error(`[FirestoreSafeWrite] ${fnName}: invalid ref`);
   }
 }
 
 function assertData(data: unknown, fnName: string): asserts data is Record<string, unknown> {
   if (!isPlainObject(data)) {
-    throw new Error([FirestoreSafeWrite] : data must be a plain object);
+    throw new Error(`[FirestoreSafeWrite] ${fnName}: data must be a plain object`);
   }
   // Reject undefined field values (common silent bug cause)
   for (const [k, v] of Object.entries(data)) {
     if (typeof v === 'undefined') {
-      throw new Error([FirestoreSafeWrite] : field "\" is undefined);
+      throw new Error(`[FirestoreSafeWrite] ${fnName}: field "${k}" is undefined`);
     }
   }
 }
