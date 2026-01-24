@@ -1,14 +1,9 @@
-import {
-
-import { safeAddDoc, safeSetDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
+import { safeAddDoc, safeUpdateDoc, safeDeleteDoc } from '../lib/firestoreSafeWrite';
 import {
   collection,
   doc,
   getDocs,
   getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
   query,
   where,
   orderBy,
