@@ -1,4 +1,3 @@
-import * as logger from "firebase-functions/logger";
 /**
  * Import function triggers from their respective submodules:
  *
@@ -9,8 +8,6 @@ import * as logger from "firebase-functions/logger";
  */
 
 import {setGlobalOptions} from "firebase-functions";
-import { onRequest } from "firebase-functions/v2/https";
-import * as _logger from "firebase-functions/_logger";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -31,5 +28,4 @@ setGlobalOptions({ maxInstances: 10 });
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
-
 
